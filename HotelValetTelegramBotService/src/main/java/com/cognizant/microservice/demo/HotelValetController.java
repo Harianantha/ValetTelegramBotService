@@ -1,6 +1,5 @@
 package com.cognizant.microservice.demo;
 
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HotelValetController {
 
 	private final static Logger LOGGER = Logger.getLogger(HotelValetController.class.getName()); 
-    private final AtomicLong counter = new AtomicLong();
     private final static String CLASSNAME="HotelValetController";
 
     
