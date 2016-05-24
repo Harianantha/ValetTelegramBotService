@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/browse")
+@RequestMapping("/valet")
 public class HotelValetController {
 
 	private final static Logger LOGGER = Logger.getLogger(HotelValetController.class.getName()); 
     private final AtomicLong counter = new AtomicLong();
-    private final static String CLASSNAME="CategoriesController";
+    private final static String CLASSNAME="HotelValetController";
 
     
     @RequestMapping(value="/process",method=RequestMethod.POST)
