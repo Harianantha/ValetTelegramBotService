@@ -1,6 +1,12 @@
 package com.cognizant.microservice.demo;
 
+import java.io.StringBufferInputStream;
 import java.util.logging.Logger;
+
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonStructure;
+import javax.json.JsonValue.ValueType;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +26,21 @@ public class HotelValetController {
     	String methodName="process";
     	LOGGER.entering(CLASSNAME, methodName);
     	System.out.println("Request body is:"+payload);
-        
+    	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
+    	JsonStructure structure=reader.read();
+    	ValueType vt=structure.getValueType();
+    	int comparop=vt.compareTo(ValueType.ARRAY);
+    	System.out.println("Output compared to array is:"+comparop);
+    	//if(vt.valueOf("text"))
+    	ValueType text=vt.valueOf("text");
+    	if(text!=null){
+    		String inputtext=text.toString();
+            System.out.println("Entered text is::"+inputtext);	
+    	}else{
+    		System.out.println("No valuetype for key text");
+    		
+    	}
+    	
        // return null;
         
         
