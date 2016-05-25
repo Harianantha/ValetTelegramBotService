@@ -34,6 +34,7 @@ public class HotelValetController {
     	//if(vt.valueOf("text"))
     	ValueType text=vt.valueOf("text");
     	
+    	
     	if(text!=null){
     		String inputtext=text.toString();
             System.out.println("Entered text is::"+inputtext);	
