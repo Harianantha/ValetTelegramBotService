@@ -33,6 +33,7 @@ public class HotelValetController {
     	System.out.println("Output compared to array is:"+comparop);
     	//if(vt.valueOf("text"))
     	ValueType text=vt.valueOf("text");
+    	
     	if(text!=null){
     		String inputtext=text.toString();
             System.out.println("Entered text is::"+inputtext);	
