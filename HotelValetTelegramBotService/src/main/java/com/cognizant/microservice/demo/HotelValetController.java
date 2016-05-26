@@ -30,9 +30,10 @@ public class HotelValetController {
     	LOGGER.entering(CLASSNAME, methodName);
     	System.out.println("Request body is:"+payload);
     	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
-    	JsonStructure structure=reader.read();
-    	JsonObject jsobject=reader.readObject();
-    	JsonString stringValue=(JsonString)jsobject.get("text");
+    	//JsonStructure structure=reader.read();
+    	JsonObject structure=reader.readObject();
+    	JsonString stringValue=(JsonString)structure.get("text");
+    	//jsobject.getV
     	
     	//JsonArray array=reader.r
     	//structure.
