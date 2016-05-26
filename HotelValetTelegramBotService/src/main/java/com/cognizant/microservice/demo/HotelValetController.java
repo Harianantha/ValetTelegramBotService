@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.JsonStructure;
+import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,9 @@ public class HotelValetController {
     	System.out.println("Request body is:"+payload);
     	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
     	JsonStructure structure=reader.read();
+    	//structure.
     	ValueType vt=structure.getValueType();
+    	//JsonValue jv=structure.getValueType().;
     	int comparop=vt.compareTo(ValueType.ARRAY);
     	System.out.println("Output compared to array is:"+comparop);
     	//if(vt.valueOf("text"))
@@ -36,14 +39,20 @@ public class HotelValetController {
     	ValueType text=null;
     	ValueType[] elements=vt.values();
     	int index=0;
+    	
     	for(ValueType values:elements){
+    		//values.
+    		//values.
+    		//values.
     		System.out.println("Index:"+index);
     		System.out.println("Name:"+values.name());
     		System.out.println("Value:"+values.toString());
+    		//values.
     		if("text".equalsIgnoreCase(values.name())){
     			text=values;
     			break;
     		}
+    		index++;
     	}
     	
     	if(text!=null){
