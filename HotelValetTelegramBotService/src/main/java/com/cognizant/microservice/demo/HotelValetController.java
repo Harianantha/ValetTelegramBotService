@@ -31,6 +31,7 @@ public class HotelValetController {
     	JsonStructure structure=reader.read();
     	//structure.
     	ValueType vt=structure.getValueType();
+    	System.out.println("Parent value type"+structure.toString());
     	//JsonValue jv=structure.getValueType().;
     	int comparop=vt.compareTo(ValueType.ARRAY);
     	System.out.println("Output compared to array is:"+comparop);
