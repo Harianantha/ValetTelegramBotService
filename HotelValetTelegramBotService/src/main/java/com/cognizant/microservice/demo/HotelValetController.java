@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonStructure;
@@ -30,11 +31,15 @@ public class HotelValetController {
     	System.out.println("Request body is:"+payload);
     	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
     	JsonStructure structure=reader.read();
+    	JsonObject jsobject=reader.readObject();
+    	JsonString stringValue=(JsonString)jsobject.get("text");
+    	
     	//JsonArray array=reader.r
     	//structure.
     	ValueType vt=structure.getValueType();
     	System.out.println("Parent Name"+structure.getValueType().name());
     	System.out.println("Parent value type"+structure.toString());
+    	System.out.println("String value for text is:"+stringValue.getString());
     	//JsonValue jv=structure.getValueType().;
     	int comparop=vt.compareTo(ValueType.ARRAY);
     	System.out.println("Output compared to array is:"+comparop);
