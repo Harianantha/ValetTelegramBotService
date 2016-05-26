@@ -1,14 +1,16 @@
 package com.cognizant.microservice.demo;
 
 import java.io.StringBufferInputStream;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonString;
-import javax.json.JsonStructure;
+import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +35,21 @@ public class HotelValetController {
     	//JsonStructure structure=reader.read();
     	JsonObject structure=reader.readObject();
     	JsonString stringValue=(JsonString)structure.get("text");
+    	Set jsonStructure=structure.entrySet();
+    	Iterator iterator=jsonStructure.iterator();
+    	int newIndex=0;
+    	while(iterator.hasNext()){
+    		Entry<String,JsonValue> entry=(Entry<String,JsonValue>)iterator.next();
+    		System.out.println("Index:"+newIndex);
+    		System.out.println("Key is"+entry.getKey());
+    		System.out.println("value is"+entry.getValue().toString());
+    		newIndex++;
+    	}
     	//jsobject.getV
     	
     	//JsonArray array=reader.r
     	//structure.
-    	ValueType vt=structure.getValueType();
+    	/*ValueType vt=structure.getValueType();
     	System.out.println("Parent Name"+structure.getValueType().name());
     	System.out.println("Parent value type"+structure.toString());
     	System.out.println("String value for text is:"+stringValue.getString());
@@ -76,7 +88,7 @@ public class HotelValetController {
     		System.out.println("No valuetype for key text");
     		
     	}
-    	
+    	*/
        // return null;
         
         
