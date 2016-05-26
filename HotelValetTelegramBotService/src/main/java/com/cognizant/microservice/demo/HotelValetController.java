@@ -54,7 +54,7 @@ public class HotelValetController {
     		//values.
     		 
     		if(values.name().equalsIgnoreCase("STRING")){
-    			JsonString st=(JsonString)values.;
+    			//JsonString st=(JsonString)values.;
     		}
     		if("text".equalsIgnoreCase(values.name())){
     			text=values;
