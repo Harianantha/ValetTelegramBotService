@@ -55,7 +55,7 @@ public class HotelValetController {
     			JsonObject messageObject=parentMessageObject.getJsonObject("message");
     			if(messageObject!=null){
     				System.out.println("Message object:"+messageObject.toString());
-    				String newStringText=parentMessageObject.getString("text");
+    				String newStringText=messageObject.getString("text");
     				System.out.println("New String text:"+newStringText);
     				JsonString stringText=parentMessageObject.getJsonString("text");
     				if(stringText!=null){
