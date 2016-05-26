@@ -32,8 +32,19 @@ public class HotelValetController {
     	int comparop=vt.compareTo(ValueType.ARRAY);
     	System.out.println("Output compared to array is:"+comparop);
     	//if(vt.valueOf("text"))
-    	ValueType text=vt.valueOf("text");
-    	
+    	//ValueType text=vt.valueOf("text");
+    	ValueType text=null;
+    	ValueType[] elements=vt.values();
+    	int index=0;
+    	for(ValueType values:elements){
+    		System.out.println("Index:"+index);
+    		System.out.println("Name:"+values.name());
+    		System.out.println("Value:"+values.toString());
+    		if("text".equalsIgnoreCase(values.name())){
+    			text=values;
+    			break;
+    		}
+    	}
     	
     	if(text!=null){
     		String inputtext=text.toString();
