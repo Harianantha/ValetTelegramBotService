@@ -7,11 +7,11 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +34,7 @@ public class HotelValetController {
     	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
     	//JsonStructure structure=reader.read();
     	JsonObject structure=reader.readObject();
-    	JsonString stringValue=(JsonString)structure.get("text");
+    	//JsonString stringValue=(JsonString)structure.get("text");
     	Set jsonStructure=structure.entrySet();
     	Iterator iterator=jsonStructure.iterator();
     	int newIndex=0;
@@ -45,6 +45,29 @@ public class HotelValetController {
     		System.out.println("value is"+entry.getValue().toString());
     		newIndex++;
     	}
+    	JsonArray result=structure.getJsonArray("result");
+    	if(result!=null){
+    		JsonObject messageObject=result.getJsonObject(0);
+    		if(messageObject!=null){
+    			JsonString stringText=messageObject.getJsonString("text");
+            	System.out.println("Text value is::"+stringText.getString());	
+    		}else{
+    			System.out.println("Message object is null");
+    		}
+        		
+    	}else{
+    		System.out.println("Result array is null");
+    	}
+    	
+    	/*Iterator< JsonValue> arrayContents=result.iterator();
+    	while(arrayContents.hasNext()){
+    		JsonValue value=arrayContents.next();
+    		if(value.getValueType().equals(ValueType.OBJECT)){
+    			value.
+    			JsonObject object=(JsonValue)value.;
+    		}
+    	}*/
+    //	JsonObject messageObject=result.getJsonObject("message");
     	//jsobject.getV
     	
     	//JsonArray array=reader.r
