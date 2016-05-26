@@ -4,9 +4,10 @@ import java.io.StringBufferInputStream;
 import java.util.logging.Logger;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 import javax.json.JsonStructure;
-import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +30,10 @@ public class HotelValetController {
     	System.out.println("Request body is:"+payload);
     	JsonReader reader=Json.createReader(new StringBufferInputStream(payload));
     	JsonStructure structure=reader.read();
+    	//JsonArray array=reader.r
     	//structure.
     	ValueType vt=structure.getValueType();
+    	System.out.println("Parent Name"+structure.getValueType().name());
     	System.out.println("Parent value type"+structure.toString());
     	//JsonValue jv=structure.getValueType().;
     	int comparop=vt.compareTo(ValueType.ARRAY);
@@ -49,6 +52,10 @@ public class HotelValetController {
     		System.out.println("Name:"+values.name());
     		System.out.println("Value:"+values.toString());
     		//values.
+    		 
+    		if(values.name().equalsIgnoreCase("STRING")){
+    			JsonString st=(JsonString)values.;
+    		}
     		if("text".equalsIgnoreCase(values.name())){
     			text=values;
     			break;
