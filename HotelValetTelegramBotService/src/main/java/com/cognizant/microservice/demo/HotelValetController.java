@@ -48,9 +48,16 @@ public class HotelValetController {
     	JsonArray result=structure.getJsonArray("result");
     	if(result!=null){
     		JsonObject messageObject=result.getJsonObject(0);
+    		System.out.println("result object:"+result.toString());
     		if(messageObject!=null){
+    			System.out.println("messageObject object:"+messageObject.toString());
     			JsonString stringText=messageObject.getJsonString("text");
-            	System.out.println("Text value is::"+stringText.getString());	
+    			if(stringText!=null){
+    				System.out.println("Text value is::"+stringText.getString());	
+    			}else{
+    				System.out.println("String text is null");
+    			}
+            		
     		}else{
     			System.out.println("Message object is null");
     		}
