@@ -1,17 +1,16 @@
 package com.cognizant.microservice.demo;
 
+import java.io.IOException;
 import java.io.StringBufferInputStream;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.JsonString;
-import javax.json.JsonValue;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class HotelValetController {
 
 	private final static Logger LOGGER = Logger.getLogger(HotelValetController.class.getName()); 
+	private static String REPLY_URL="https://api.telegram.org/bot169765458:AAEFn0fOw7m8noxWUFWEPaqOxWhgDP23_Bc/sendMessage?";
+	private static String CHAT_ID="chat_id";
+	private static String REPLY_TEXT="text";
+	private static String REPLY_TO_MESSAGE="reply_to_message_id";
+	private static String EQUALS="=";
+	private static String AMBERSON="&";
+	private static String ACKNOWLEDGEMENT_MESSAGE="Thanks. Your vehicle will be ready for you";
     private final static String CLASSNAME="HotelValetController";
 
     
@@ -35,38 +41,32 @@ public class HotelValetController {
     	//JsonStructure structure=reader.read();
     	JsonObject structure=reader.readObject();
     	//JsonString stringValue=(JsonString)structure.get("text");
-    	Set jsonStructure=structure.entrySet();
-    	Iterator iterator=jsonStructure.iterator();
-    	int newIndex=0;
-    	while(iterator.hasNext()){
-    		Entry<String,JsonValue> entry=(Entry<String,JsonValue>)iterator.next();
-    		System.out.println("Index:"+newIndex);
-    		System.out.println("Key is"+entry.getKey());
-    		System.out.println("value is"+entry.getValue().toString());
-    		newIndex++;
-    	}
+
+ 
+    	int chatId=0;
+    	int messageId=0;
+    	String messagePostedByCustomer=null;
+    	
+    
     	JsonArray result=structure.getJsonArray("result");
     	if(result!=null){
     		JsonObject parentMessageObject=result.getJsonObject(0);
     		//System.out.println("result object:"+result.toString());
     		if(parentMessageObject!=null){
-    			System.out.println("parentMessageObject object:"+parentMessageObject.toString());
+    			//System.out.println("parentMessageObject object:"+parentMessageObject.toString());
     			
     			JsonObject messageObject=parentMessageObject.getJsonObject("message");
     			if(messageObject!=null){
-    				System.out.println("Message object:"+messageObject.toString());
-    				String newStringText=messageObject.getString("text");
-    				System.out.println("New String text:"+newStringText);
-    				JsonString stringText=parentMessageObject.getJsonString("text");
-    				if(stringText!=null){
-    					System.out.println("Text value is::"+stringText.getString());	
-    				}else{
-    					System.out.println("stringText is null");
-    				}
+    				
+    				messagePostedByCustomer=messageObject.getString("text");
+    				JsonObject chatObject=messageObject.getJsonObject("chat");
+        			chatId=chatObject.getInt("id");
+        			messageId=messageObject.getInt("message_id");
     					
     			}else{
     				System.out.println("messageObject is null");
     			}
+    			
             		
     		}else{
     			System.out.println("parentMessageObject is null");
@@ -75,65 +75,55 @@ public class HotelValetController {
     	}else{
     		System.out.println("Result array is null");
     	}
+    	String replyMessage=getConstructedReplyURL(messagePostedByCustomer,chatId,messageId);
+    	System.out.println("Reply URL to be posted:"+replyMessage);
     	
-    	/*Iterator< JsonValue> arrayContents=result.iterator();
-    	while(arrayContents.hasNext()){
-    		JsonValue value=arrayContents.next();
-    		if(value.getValueType().equals(ValueType.OBJECT)){
-    			value.
-    			JsonObject object=(JsonValue)value.;
-    		}
-    	}*/
-    //	JsonObject messageObject=result.getJsonObject("message");
-    	//jsobject.getV
     	
-    	//JsonArray array=reader.r
-    	//structure.
-    	/*ValueType vt=structure.getValueType();
-    	System.out.println("Parent Name"+structure.getValueType().name());
-    	System.out.println("Parent value type"+structure.toString());
-    	System.out.println("String value for text is:"+stringValue.getString());
-    	//JsonValue jv=structure.getValueType().;
-    	int comparop=vt.compareTo(ValueType.ARRAY);
-    	System.out.println("Output compared to array is:"+comparop);
-    	//if(vt.valueOf("text"))
-    	//ValueType text=vt.valueOf("text");
-    	ValueType text=null;
-    	ValueType[] elements=vt.values();
-    	int index=0;
-    	
-    	for(ValueType values:elements){
-    		//values.
-    		//values.
-    		//values.
-    		System.out.println("Index:"+index);
-    		System.out.println("Name:"+values.name());
-    		System.out.println("Value:"+values.toString());
-    		//values.
-    		 
-    		if(values.name().equalsIgnoreCase("STRING")){
-    			//JsonString st=(JsonString)values.;
-    		}
-    		if("text".equalsIgnoreCase(values.name())){
-    			text=values;
-    			break;
-    		}
-    		index++;
-    	}
-    	
-    	if(text!=null){
-    		String inputtext=text.toString();
-            System.out.println("Entered text is::"+inputtext);	
-    	}else{
-    		System.out.println("No valuetype for key text");
-    		
-    	}
-    	*/
-       // return null;
-        
-        
-        
+    	URL url=null;
+		try {
+			url = new URL(replyMessage);
+			long startTime=System.currentTimeMillis();
+			/*HttpHost proxy = new HttpHost("proxy.cognizant.com");
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.cognizant.com", 6050));*/
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			/*conn.setRequestProperty("Accept", "application/json");
+			conn.addRequestProperty("http.proxyHost", "proxy.cognizant.com");
+			conn.addRequestProperty("http.proxyPort", "6050");*/
+			//conn.addRequestProperty("java.net.useSystemProxies", "true");
+			
+			conn.connect();
+			//conn.getC
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
+			}
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		    	
+       
     }
    
-    
+    private String getConstructedReplyURL(String inputText,int chatId,int messageId){
+    	
+    	StringBuffer reply=new StringBuffer(REPLY_URL);
+    	reply.append(CHAT_ID);
+    	reply.append(EQUALS);
+    	reply.append(chatId);
+    	reply.append(AMBERSON);
+    	reply.append(REPLY_TEXT);
+    	reply.append(EQUALS);
+    	reply.append(ACKNOWLEDGEMENT_MESSAGE);
+    	reply.append(AMBERSON);
+    	reply.append(REPLY_TO_MESSAGE);
+    	reply.append(EQUALS);
+    	reply.append(messageId);
+    	return reply.toString();
+    }
 }
