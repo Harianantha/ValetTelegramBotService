@@ -47,7 +47,7 @@ public class HotelValetController {
     	int messageId=0;
     	String messagePostedByCustomer=null;
     	
-    
+    /*
     	JsonArray result=structure.getJsonArray("result");
     	if(result!=null){
     		JsonObject parentMessageObject=result.getJsonObject(0);
@@ -75,6 +75,32 @@ public class HotelValetController {
     	}else{
     		System.out.println("Result array is null");
     	}
+    	
+    	*/
+
+    	
+    		//System.out.println("result object:"+result.toString());
+    		if(structure!=null){
+    			//System.out.println("parentMessageObject object:"+parentMessageObject.toString());
+    			
+    			JsonObject messageObject=structure.getJsonObject("message");
+    			if(messageObject!=null){
+    				
+    				messagePostedByCustomer=messageObject.getString("text");
+    				JsonObject chatObject=messageObject.getJsonObject("chat");
+        			chatId=chatObject.getInt("id");
+        			messageId=messageObject.getInt("message_id");
+    					
+    			}else{
+    				System.out.println("messageObject is null");
+    			}
+    			
+            		
+    		}else{
+    			System.out.println("parentMessageObject is null");
+    		}
+        		
+    	
     	String replyMessage=getConstructedReplyURL(messagePostedByCustomer,chatId,messageId);
     	System.out.println("Reply URL to be posted:"+replyMessage);
     	
